@@ -50,7 +50,9 @@ module Libyajl2Build
 
       # create the implib on windows
       if windows?
-        $LDFLAGS << " -Wl,--export-all-symbols -Wl,--enable-auto-import -Wl,--out-implib=libyajldll.a -Wl,--output-def,libyajl.def"
+        # Add -fstack-protector to make the lib work with newer versions of msys + gcc10
+        # See https://github.com/msys2/MINGW-packages/issues/5868
+        $LDFLAGS << " -fstack-protector -Wl,--export-all-symbols -Wl,--enable-auto-import -Wl,--out-implib=libyajldll.a -Wl,--output-def,libyajl.def"
       end
     end
 
